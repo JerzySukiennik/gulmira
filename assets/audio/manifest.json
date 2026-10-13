@@ -1,0 +1,544 @@
+{
+  "sfx": {
+    "ak_burst_1": {
+      "file": "assets/audio/sfx/ak_burst_1.mp3",
+      "dur": 3.0,
+      "loop": false,
+      "lufs": -16.3,
+      "truePeakDb": -7.0,
+      "desc": "Assault rifle burst fired in a street, short reverberant tail."
+    },
+    "ak_burst_2": {
+      "file": "assets/audio/sfx/ak_burst_2.mp3",
+      "dur": 2.6,
+      "loop": false,
+      "lufs": -16.4,
+      "truePeakDb": -2.3,
+      "desc": "M4 assault rifle long burst."
+    },
+    "ak_burst_3": {
+      "file": "assets/audio/sfx/ak_burst_3.mp3",
+      "dur": 1.45,
+      "loop": false,
+      "lufs": -16.4,
+      "truePeakDb": -7.5,
+      "desc": "Machine gun / rifle burst of about five rounds (source title \"machine gun\")."
+    },
+    "ak_single_1": {
+      "file": "assets/audio/sfx/ak_single_1.mp3",
+      "dur": 0.4,
+      "loop": false,
+      "lufs": -22.8,
+      "truePeakDb": -1.8,
+      "desc": "AK-47 single shot, sharp transient."
+    },
+    "ak_single_2": {
+      "file": "assets/audio/sfx/ak_single_2.mp3",
+      "dur": 0.8,
+      "loop": false,
+      "lufs": -16.4,
+      "truePeakDb": -3.0,
+      "desc": "AK-47 single shot with the metallic action sound."
+    },
+    "ak_distant_1": {
+      "file": "assets/audio/sfx/ak_distant_1.mp3",
+      "dur": 4.4,
+      "loop": false,
+      "lufs": -18.9,
+      "truePeakDb": -1.9,
+      "desc": "Rapid submachine gun fire, distant (source title \"Rapid Fire Sub Machine Gun distant\")."
+    },
+    "ak_distant_2": {
+      "file": "assets/audio/sfx/ak_distant_2.mp3",
+      "dur": 4.5,
+      "loop": false,
+      "lufs": -19.3,
+      "truePeakDb": -1.9,
+      "desc": "Distant gunshots (source title \"Lewes Gunshots distant\")."
+    },
+    "hmg_burst_1": {
+      "file": "assets/audio/sfx/hmg_burst_1.mp3",
+      "dur": 2.6,
+      "loop": false,
+      "lufs": -16.4,
+      "truePeakDb": -9.8,
+      "desc": "Heavy machine gun, slow heavy thumps."
+    },
+    "hmg_burst_2": {
+      "file": "assets/audio/sfx/hmg_burst_2.mp3",
+      "dur": 3.08,
+      "loop": false,
+      "lufs": -16.2,
+      "truePeakDb": -10.0,
+      "desc": "Heavy machine gun burst, rapid."
+    },
+    "aa_gun_burst_1": {
+      "file": "assets/audio/sfx/aa_gun_burst_1.mp3",
+      "dur": 1.94,
+      "loop": false,
+      "lufs": -17.0,
+      "truePeakDb": -2.0,
+      "desc": "Autocannon three-shot burst."
+    },
+    "rpg_launch_1": {
+      "file": "assets/audio/sfx/rpg_launch_1.mp3",
+      "dur": 2.5,
+      "loop": false,
+      "lufs": -19.2,
+      "truePeakDb": -2.0,
+      "desc": "Rocket launcher shot, first of three."
+    },
+    "rpg_launch_2": {
+      "file": "assets/audio/sfx/rpg_launch_2.mp3",
+      "dur": 2.6,
+      "loop": false,
+      "lufs": -16.4,
+      "truePeakDb": -3.9,
+      "desc": "Heavy rocket launcher, launch bang and tail."
+    },
+    "tank_cannon_1": {
+      "file": "assets/audio/sfx/tank_cannon_1.mp3",
+      "dur": 3.4,
+      "loop": false,
+      "lufs": -15.7,
+      "truePeakDb": -2.6,
+      "desc": "Tank shots, first shot of the recording (source title \"Tank Shots\")."
+    },
+    "tank_cannon_2": {
+      "file": "assets/audio/sfx/tank_cannon_2.mp3",
+      "dur": 3.3,
+      "loop": false,
+      "lufs": -15.4,
+      "truePeakDb": -2.8,
+      "desc": "Tanks shooting, first shot of the recording (source title \"Tanks Shooting\")."
+    },
+    "explosion_big_1": {
+      "file": "assets/audio/sfx/explosion_big_1.mp3",
+      "dur": 5.5,
+      "loop": false,
+      "lufs": -16.4,
+      "truePeakDb": -1.9,
+      "desc": "Massive explosion with sustained rumble."
+    },
+    "explosion_big_2": {
+      "file": "assets/audio/sfx/explosion_big_2.mp3",
+      "dur": 6.5,
+      "loop": false,
+      "lufs": -16.4,
+      "truePeakDb": -2.0,
+      "desc": "Astronomical explosion, long low tail (source title \"Astronomical Explosion\")."
+    },
+    "explosion_big_3": {
+      "file": "assets/audio/sfx/explosion_big_3.mp3",
+      "dur": 4.8,
+      "loop": false,
+      "lufs": -16.5,
+      "truePeakDb": -2.0,
+      "desc": "Series of explosions, heavy boom and decay."
+    },
+    "explosion_med_1": {
+      "file": "assets/audio/sfx/explosion_med_1.mp3",
+      "dur": 2.2,
+      "loop": false,
+      "lufs": -24.6,
+      "truePeakDb": -1.9,
+      "desc": "Medium grenade-class explosion, meaty."
+    },
+    "explosion_med_2": {
+      "file": "assets/audio/sfx/explosion_med_2.mp3",
+      "dur": 3.6,
+      "loop": false,
+      "lufs": -16.6,
+      "truePeakDb": -1.9,
+      "desc": "Explosion, broadband decay (source title \"Explosion.mp3\")."
+    },
+    "explosion_med_3": {
+      "file": "assets/audio/sfx/explosion_med_3.mp3",
+      "dur": 3.3,
+      "loop": false,
+      "lufs": -16.2,
+      "truePeakDb": -1.8,
+      "desc": "Medium blast with a long tail."
+    },
+    "explosion_small_1": {
+      "file": "assets/audio/sfx/explosion_small_1.mp3",
+      "dur": 1.0,
+      "loop": false,
+      "lufs": -16.4,
+      "truePeakDb": -4.1,
+      "desc": "Small explosion, grenade size."
+    },
+    "explosion_small_2": {
+      "file": "assets/audio/sfx/explosion_small_2.mp3",
+      "dur": 2.6,
+      "loop": false,
+      "lufs": -16.4,
+      "truePeakDb": -4.3,
+      "desc": "Deep small explosion."
+    },
+    "explosion_distant_1": {
+      "file": "assets/audio/sfx/explosion_distant_1.mp3",
+      "dur": 4.0,
+      "loop": false,
+      "lufs": -27.7,
+      "truePeakDb": -2.0,
+      "desc": "Muffled distant explosion."
+    },
+    "explosion_distant_2": {
+      "file": "assets/audio/sfx/explosion_distant_2.mp3",
+      "dur": 5.5,
+      "loop": false,
+      "lufs": -16.3,
+      "truePeakDb": -3.9,
+      "desc": "Distant explosions, first event of the cut (source title \"G43-14-25 Distant Explosions\")."
+    },
+    "debris_rain_1": {
+      "file": "assets/audio/sfx/debris_rain_1.mp3",
+      "dur": 5.0,
+      "loop": false,
+      "lufs": -18.2,
+      "truePeakDb": -1.9,
+      "desc": "Rock and dirt debris falling after a blast."
+    },
+    "debris_rain_2": {
+      "file": "assets/audio/sfx/debris_rain_2.mp3",
+      "dur": 2.3,
+      "loop": false,
+      "lufs": -17.8,
+      "truePeakDb": -1.9,
+      "desc": "Big falling debris, crash."
+    },
+    "fire_loop": {
+      "file": "assets/audio/sfx/fire_loop.mp3",
+      "dur": 6.0,
+      "loop": true,
+      "loopStart": 0.03,
+      "loopEnd": 5.97,
+      "lufs": -16.4,
+      "truePeakDb": -1.9,
+      "desc": "Burning crackle loop."
+    },
+    "fire_large_loop": {
+      "file": "assets/audio/sfx/fire_large_loop.mp3",
+      "dur": 8.0,
+      "loop": true,
+      "loopStart": 0.03,
+      "loopEnd": 7.97,
+      "lufs": -16.9,
+      "truePeakDb": -1.6,
+      "desc": "Roaring campfire flame loop."
+    },
+    "ricochet_1": {
+      "file": "assets/audio/sfx/ricochet_1.mp3",
+      "dur": 0.75,
+      "loop": false,
+      "lufs": -16.6,
+      "truePeakDb": -1.6,
+      "desc": "Bullet ricochet, metallic ping with ring."
+    },
+    "ricochet_2": {
+      "file": "assets/audio/sfx/ricochet_2.mp3",
+      "dur": 0.95,
+      "loop": false,
+      "lufs": -32.7,
+      "truePeakDb": -2.0,
+      "desc": "Bullet ricochet, double ping."
+    },
+    "ricochet_3": {
+      "file": "assets/audio/sfx/ricochet_3.mp3",
+      "dur": 2.8,
+      "loop": false,
+      "lufs": -21.6,
+      "truePeakDb": -1.9,
+      "desc": "Bullet ricochet (source title \"Bullet Ricochet 1_3\")."
+    },
+    "ricochet_4": {
+      "file": "assets/audio/sfx/ricochet_4.mp3",
+      "dur": 1.0,
+      "loop": false,
+      "lufs": -30.5,
+      "truePeakDb": -3.0,
+      "desc": "Ricochet with a sharp ping."
+    },
+    "bullet_flyby_1": {
+      "file": "assets/audio/sfx/bullet_flyby_1.mp3",
+      "dur": 0.5,
+      "loop": false,
+      "lufs": -16.4,
+      "truePeakDb": -3.4,
+      "desc": "Bullet cracking past, single pass."
+    },
+    "bullet_flyby_2": {
+      "file": "assets/audio/sfx/bullet_flyby_2.mp3",
+      "dur": 1.0,
+      "loop": false,
+      "lufs": -21.1,
+      "truePeakDb": -2.0,
+      "desc": "Bullet whizzing past."
+    },
+    "bullet_flyby_3": {
+      "file": "assets/audio/sfx/bullet_flyby_3.mp3",
+      "dur": 0.9,
+      "loop": false,
+      "lufs": -19.8,
+      "truePeakDb": -1.6,
+      "desc": "Whizz-by with Doppler."
+    },
+    "bullet_impact_dirt_1": {
+      "file": "assets/audio/sfx/bullet_impact_dirt_1.mp3",
+      "dur": 0.72,
+      "loop": false,
+      "lufs": -16.3,
+      "truePeakDb": -2.8,
+      "desc": "Bullet impact in dirt."
+    },
+    "bullet_impact_dirt_2": {
+      "file": "assets/audio/sfx/bullet_impact_dirt_2.mp3",
+      "dur": 1.2,
+      "loop": false,
+      "lufs": -27.9,
+      "truePeakDb": -2.0,
+      "desc": "Rock hitting dirt."
+    },
+    "bullet_impact_wall_1": {
+      "file": "assets/audio/sfx/bullet_impact_wall_1.mp3",
+      "dur": 0.5,
+      "loop": false,
+      "lufs": -16.4,
+      "truePeakDb": -2.2,
+      "desc": "Visceral bullet impacts, first impact (source title \"VisceralBulletImpacts\"). No dedicated wall recording was found."
+    },
+    "bullet_impact_wall_2": {
+      "file": "assets/audio/sfx/bullet_impact_wall_2.mp3",
+      "dur": 0.95,
+      "loop": false,
+      "lufs": -19.5,
+      "truePeakDb": -2.0,
+      "desc": "Bullet impact on ground, subsonic (source title \"Bullet impact ground\"). Stand-in for a wall impact."
+    },
+    "armor_hit_heavy_1": {
+      "file": "assets/audio/sfx/armor_hit_heavy_1.mp3",
+      "dur": 3.6,
+      "loop": false,
+      "lufs": -15.9,
+      "truePeakDb": -3.4,
+      "desc": "Huge metallic impact with long ring."
+    },
+    "armor_hit_heavy_2": {
+      "file": "assets/audio/sfx/armor_hit_heavy_2.mp3",
+      "dur": 2.0,
+      "loop": false,
+      "lufs": -19.8,
+      "truePeakDb": -2.0,
+      "desc": "Heavy metallic clang."
+    },
+    "missile_salvo_1": {
+      "file": "assets/audio/sfx/missile_salvo_1.mp3",
+      "dur": 2.6,
+      "loop": false,
+      "lufs": -17.4,
+      "truePeakDb": -1.9,
+      "desc": "Rapid succession of small rocket launches."
+    },
+    "missile_salvo_2": {
+      "file": "assets/audio/sfx/missile_salvo_2.mp3",
+      "dur": 4.1,
+      "loop": false,
+      "lufs": -15.9,
+      "truePeakDb": -3.6,
+      "desc": "Missile firing (source title \"Missile firing fl\")."
+    },
+    "rocket_loop": {
+      "file": "assets/audio/sfx/rocket_loop.mp3",
+      "dur": 6.0,
+      "loop": true,
+      "loopStart": 0.03,
+      "loopEnd": 5.97,
+      "lufs": -16.5,
+      "truePeakDb": -6.8,
+      "desc": "Rocket motor thrust loop."
+    },
+    "flare_launch_1": {
+      "file": "assets/audio/sfx/flare_launch_1.mp3",
+      "dur": 1.21,
+      "loop": false,
+      "lufs": -29.0,
+      "truePeakDb": -1.7,
+      "desc": "Flare-style pop, recorded wrapper pop (source title \"Wrapper Flare / Pop\")."
+    },
+    "flare_launch_2": {
+      "file": "assets/audio/sfx/flare_launch_2.mp3",
+      "dur": 0.66,
+      "loop": false,
+      "lufs": -22.4,
+      "truePeakDb": -2.0,
+      "desc": "Short flare-style pop, recorded wrapper pop (source title \"Wrapper Flare / Pop\")."
+    },
+    "flare_burn_loop": {
+      "file": "assets/audio/sfx/flare_burn_loop.mp3",
+      "dur": 6.0,
+      "loop": true,
+      "loopStart": 0.03,
+      "loopEnd": 5.97,
+      "lufs": -16.4,
+      "truePeakDb": -2.0,
+      "desc": "Hissing burning road flare loop."
+    },
+    "sonic_boom_1": {
+      "file": "assets/audio/sfx/sonic_boom_1.mp3",
+      "dur": 7.35,
+      "loop": false,
+      "lufs": -16.4,
+      "truePeakDb": -5.6,
+      "desc": "Massive sonic boom from a fighter breaking the sound barrier."
+    },
+    "truck_engine_loop": {
+      "file": "assets/audio/sfx/truck_engine_loop.mp3",
+      "dur": 5.0,
+      "loop": true,
+      "loopStart": 0.03,
+      "loopEnd": 4.97,
+      "lufs": -16.4,
+      "truePeakDb": -2.0,
+      "desc": "Diesel engine idling loop (source title \"engine_idle_loop\")."
+    },
+    "tank_engine_loop": {
+      "file": "assets/audio/sfx/tank_engine_loop.mp3",
+      "dur": 8.0,
+      "loop": true,
+      "loopStart": 0.03,
+      "loopEnd": 7.97,
+      "lufs": -16.6,
+      "truePeakDb": -3.2,
+      "desc": "Tracked military vehicle moving (source title \"t26 moving\")."
+    },
+    "jet_flyby_1": {
+      "file": "assets/audio/sfx/jet_flyby_1.mp3",
+      "dur": 7.5,
+      "loop": false,
+      "lufs": -16.5,
+      "truePeakDb": -2.8,
+      "desc": "Fighter jet passing close and fast (Saab Draken)."
+    },
+    "jet_flyby_2": {
+      "file": "assets/audio/sfx/jet_flyby_2.mp3",
+      "dur": 8.0,
+      "loop": false,
+      "lufs": -16.4,
+      "truePeakDb": -1.9,
+      "desc": "F/A-18 hornet passing close and fast."
+    },
+    "jet_flyby_3": {
+      "file": "assets/audio/sfx/jet_flyby_3.mp3",
+      "dur": 8.0,
+      "loop": false,
+      "lufs": -16.2,
+      "truePeakDb": -2.0,
+      "desc": "F-15 flyover, close pass."
+    },
+    "jet_engine_loop": {
+      "file": "assets/audio/sfx/jet_engine_loop.mp3",
+      "dur": 8.0,
+      "loop": true,
+      "loopStart": 0.03,
+      "loopEnd": 7.97,
+      "lufs": -16.5,
+      "truePeakDb": -2.5,
+      "desc": "Fighter jet engine at steady power, cut from a start-up recording (source title \"F16 fighter jet start up\")."
+    },
+    "missile_lock_loop": {
+      "file": "assets/audio/sfx/missile_lock_loop.mp3",
+      "dur": 2.6,
+      "loop": true,
+      "loopStart": 0.03,
+      "loopEnd": 2.57,
+      "lufs": -16.4,
+      "truePeakDb": -7.4,
+      "desc": "Missile lock warning beeping."
+    },
+    "desert_wind_loop": {
+      "file": "assets/audio/sfx/desert_wind_loop.mp3",
+      "dur": 12.0,
+      "loop": true,
+      "loopStart": 0.03,
+      "loopEnd": 11.97,
+      "lufs": -16.5,
+      "truePeakDb": -1.9,
+      "desc": "Gentle wind over an open desert plain (source title \"Looping Gentle Wind Ambience\")."
+    },
+    "village_ambience_loop": {
+      "file": "assets/audio/sfx/village_ambience_loop.mp3",
+      "dur": 20.0,
+      "loop": true,
+      "loopStart": 0.03,
+      "loopEnd": 19.97,
+      "lufs": -16.9,
+      "truePeakDb": -1.5,
+      "desc": "Small village at night, dogs barking in the distance (source title \"Dogs barking far with echo in a small village at night\")."
+    },
+    "crowd_panic_1": {
+      "file": "assets/audio/sfx/crowd_panic_1.mp3",
+      "dur": 10.5,
+      "loop": false,
+      "lufs": -16.8,
+      "truePeakDb": -2.5,
+      "desc": "Crowd in panic (source title \"Crowd in panic\")."
+    },
+    "dog_bark_1": {
+      "file": "assets/audio/sfx/dog_bark_1.mp3",
+      "dur": 1.35,
+      "loop": false,
+      "lufs": -16.4,
+      "truePeakDb": -7.0,
+      "desc": "Aggressive dog barks."
+    },
+    "dog_bark_2": {
+      "file": "assets/audio/sfx/dog_bark_2.mp3",
+      "dur": 1.65,
+      "loop": false,
+      "lufs": -16.5,
+      "truePeakDb": -2.0,
+      "desc": "Small dog barking."
+    }
+  },
+  "music": {
+    "music_approach": {
+      "file": "assets/audio/music/music_approach.mp3",
+      "dur": 120.0,
+      "loop": true,
+      "loopStart": 0.03,
+      "loopEnd": 119.97,
+      "lufs": -18.4,
+      "truePeakDb": -4.1,
+      "desc": "Call to Adventure (Kevin MacLeod). Heroic orchestral theme, loopable."
+    },
+    "music_combat": {
+      "file": "assets/audio/music/music_combat.mp3",
+      "dur": 100.0,
+      "loop": true,
+      "loopStart": 0.03,
+      "loopEnd": 99.97,
+      "lufs": -18.5,
+      "truePeakDb": -1.6,
+      "desc": "Devastation and Revenge (Kevin MacLeod). Dark cinematic combat track, loopable."
+    },
+    "music_chase": {
+      "file": "assets/audio/music/music_chase.mp3",
+      "dur": 110.0,
+      "loop": true,
+      "loopStart": 0.03,
+      "loopEnd": 109.97,
+      "lufs": -18.2,
+      "truePeakDb": -9.0,
+      "desc": "06 - Hustle (Kevin MacLeod). Fast driving action track, loopable."
+    },
+    "music_victory": {
+      "file": "assets/audio/music/music_victory.mp3",
+      "dur": 22.0,
+      "loop": false,
+      "lufs": -18.1,
+      "truePeakDb": -1.6,
+      "desc": "Running Fanfare (Kevin MacLeod). Short fanfare outro."
+    }
+  }
+}
