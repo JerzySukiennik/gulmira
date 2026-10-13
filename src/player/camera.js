@@ -2,7 +2,7 @@
 import * as THREE from 'three';
 
 const damp = (k, dt) => 1 - Math.exp(-k * dt);
-const _a = new THREE.Vector3(), _b = new THREE.Vector3(), _c = new THREE.Vector3();
+const _a = new THREE.Vector3(), _b = new THREE.Vector3(), _c = new THREE.Vector3(), _d = new THREE.Vector3();
 
 export class CameraRig {
   constructor(camera, player, world) {
@@ -15,6 +15,7 @@ export class CameraRig {
     this.dist = 6;
     this.offset = new THREE.Vector3();
     this.pos = new THREE.Vector3();
+    this.rel = new THREE.Vector3();
     this.fov = 62;
     this.trauma = 0;
     this.shakeT = 0;
@@ -44,7 +45,7 @@ export class CameraRig {
       case 'ground': dist = 3.5; side = 0.78; up = 0.42; break;
       case 'landing': dist = 4.4; side = 0.5; up = 0.2; break;
       case 'hover': dist = 5.0; side = 0.62; up = 0.5; break;
-      case 'flight': dist = 5.6 + sk * 4.0; side = 0.35 * (1 - P.flightBlend); up = 1.25; break;
+      case 'flight': dist = 5.2 + sk * 2.8; side = 0.35 * (1 - P.flightBlend); up = 1.15; break;
       default: dist = 7.5; side = 0; up = 1.2;
     }
     dist *= 1 - this.zoom * 0.35;
@@ -66,11 +67,10 @@ export class CameraRig {
       toCam.divideScalar(len);
       const hit = this.world.raycast(pivot, toCam, len + 0.4, { terrain: true });
       if (hit) want.copy(pivot).addScaledVector(toCam, Math.max(0.6, hit.dist - 0.35));
-      if (!this.inited) { this.pos.copy(want); this.inited = true; }
-      const follow = P.mode === 'flight' ? 30 : 22;
-      this.pos.lerp(want, damp(follow, dt));
-      const lead = P.mode === 'flight' ? 0 : 0;
-      this.pos.addScaledVector(P.vel, lead);
+      _d.subVectors(want, pivot);
+      if (!this.inited) { this.rel.copy(_d); this.inited = true; }
+      this.rel.lerp(_d, damp(P.mode === 'flight' ? 14 : 22, dt));
+      this.pos.copy(pivot).add(this.rel);
       const g = this.world.terrain.heightAt(this.pos.x, this.pos.z) + 0.5;
       if (this.pos.y < g) this.pos.y = g;
       this.camera.position.copy(this.pos);

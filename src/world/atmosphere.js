@@ -89,6 +89,7 @@ void main() {
   float g = 0.78;
   float pM = 3.0 / (8.0 * PI) * ((1.0 - g * g) * (1.0 + mu * mu)) / ((2.0 + g * g) * pow(1.0 + g * g - 2.0 * g * mu, 1.5));
   vec3 col = uSunI * (sumR * bR * pR + sumM * bM * pM);
+  col.g -= max(0.0, col.g - 0.5 * (col.r + col.b)) * 0.75;
   if (hitG && uGround > 0.5) {
     vec3 tauV = bR * odR + bM * 1.11 * odM + bO * odO;
     col += uGroundCol * exp(-tauV);
@@ -370,6 +371,7 @@ export class Atmosphere {
     float mu = dot(rd, uSunDir);
     vec3 dust = uDustCol + uSunCol * gulHG(mu, 0.72) * 1.4;
     vec3 ins = mix(sky, dust, 0.55);
+    ins.g -= max(0.0, ins.g - 0.5 * (ins.r + ins.b)) * 0.85;
     return col * T + ins * (1.0 - T);
   }
  #else
