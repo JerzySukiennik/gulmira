@@ -105,6 +105,7 @@ export class PropLibrary {
         im.receiveShadow = true;
         im.frustumCulled = false;
         im.visible = false;
+        im.matrixAutoUpdate = false; im.updateMatrix();
         this.scene.add(im);
         return im;
       });

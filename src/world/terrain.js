@@ -232,12 +232,12 @@ float wMud = (1.0 - smoothstep(uVillage.z * 0.55, uVillage.z, vd + (n2 - 0.5) * 
 float far = smoothstep(500.0, 2200.0, vTerrDist);
 gFar = far;
 TL L = sampleLayer2(1.0, wxz, 4.0, n2);
-if (wSand > 0.01) L = blendH(L, sampleLayer2(0.0, wxz, 3.2, n3), wSand, 3.0);
-if (wGrav > 0.01) L = blendH(L, sampleLayer2(5.0, wxz, 2.6, n1), wGrav * 0.8, 3.0);
-if (wMud > 0.01) L = blendH(L, sampleLayer2(4.0, wxz, 3.0, n3), wMud, 4.0);
-if (wRoad > 0.01) L = blendH(L, sampleLayer2(4.0, wxz, 3.0, n1), wRoad, 5.0);
-if (wRock > 0.01) L = blendH(L, sampleLayer2(2.0, wxz, 7.0, n1), wRock, 4.0);
-if (wCliff > 0.01) {
+if (wSand > 0.07) L = blendH(L, sampleLayer2(0.0, wxz, 3.2, n3), wSand, 3.0);
+if (wGrav > 0.09) L = blendH(L, sampleLayer2(5.0, wxz, 2.6, n1), wGrav * 0.8, 3.0);
+if (wMud > 0.06) L = blendH(L, sampleLayer2(4.0, wxz, 3.0, n3), wMud, 4.0);
+if (wRoad > 0.06) L = blendH(L, sampleLayer2(4.0, wxz, 3.0, n1), wRoad, 5.0);
+if (wRock > 0.06) L = blendH(L, sampleLayer2(2.0, wxz, 7.0, n1), wRock, 4.0);
+if (wCliff > 0.04) {
   TL C = triLayer(3.0, wpos, nGeo, 14.0);
   float warp = fNoise(wxz * 0.006) * 6.0 + fNoise(wxz * 0.03) * 0.8;
   vec2 sp1 = vec2(wpos.y / 7.0 + warp, dot(wxz, vec2(0.0021, 0.0017)));
@@ -489,6 +489,8 @@ export class Terrain {
     this.mesh.frustumCulled = false;
     this.mesh.receiveShadow = true;
     this.mesh.castShadow = false;
+    this.mesh.renderOrder = 1;
+    this.mesh.matrixAutoUpdate = false; this.mesh.updateMatrix();
     this.frustum = new THREE.Frustum();
     this.box = new THREE.Box3();
     this.pm = new THREE.Matrix4();

@@ -86,9 +86,9 @@ export class AudioEngine {
   resume() { if (this.ctx && this.ctx.state !== 'running') this.ctx.resume(); }
 
   setListener(camera) {
+    this.listenerPos.copy(camera.position);
     if (!this.ctx) return;
     const L = this.ctx.listener, p = camera.position;
-    this.listenerPos.copy(p);
     const f = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion), u = new THREE.Vector3(0, 1, 0).applyQuaternion(camera.quaternion);
     const t = this.ctx.currentTime;
     if (L.positionX) {

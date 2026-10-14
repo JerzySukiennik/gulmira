@@ -10,14 +10,18 @@ function scorchTexture() {
   c.width = c.height = 256;
   const g = c.getContext('2d');
   const img = g.createImageData(256, 256);
+  const smooth = (a, b, x) => { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
   for (let y = 0; y < 256; y++) for (let x = 0; x < 256; x++) {
     const u = x / 128 - 1, v = y / 128 - 1;
     const a = Math.atan2(v, u), r = Math.hypot(u, v);
-    const n = 0.75 + 0.25 * Math.sin(a * 7 + Math.sin(a * 3) * 2) + 0.15 * Math.sin(a * 23 + r * 9);
-    const d = Math.max(0, 1 - r / (0.9 * n));
+    const streak = 0.5 + 0.5 * Math.sin(a * 17 + Math.sin(a * 5) * 3) * Math.sin(a * 41 + 1.3);
+    const n = 0.68 + 0.18 * Math.sin(a * 7 + Math.sin(a * 3) * 2) + 0.16 * streak * smooth(0.3, 0.8, r);
+    const d = Math.max(0, 1 - r / (0.95 * n));
+    const grain = 0.75 + Math.random() * 0.25;
     const o = (y * 256 + x) * 4;
-    img.data[o] = img.data[o + 1] = img.data[o + 2] = 0;
-    img.data[o + 3] = Math.min(255, Math.pow(d, 0.7) * 235 * (0.8 + Math.random() * 0.2));
+    const core = smooth(0.15, 0.75, d);
+    img.data[o] = 44 - 38 * core; img.data[o + 1] = 33 - 28 * core; img.data[o + 2] = 24 - 20 * core;
+    img.data[o + 3] = Math.min(255, smooth(0.0, 0.28, d) * (0.55 + 0.45 * core) * 250 * grain);
   }
   g.putImageData(img, 0, 0);
   const t = new THREE.CanvasTexture(c);
@@ -38,7 +42,8 @@ export class Effects {
       this.lights.push({ l, t: 0, dur: 1, peak: 0 });
     }
     this.emitters = [];
-    this.scorchMat = new THREE.MeshBasicMaterial({ map: scorchTexture(), transparent: true, depthWrite: false, color: 0x090706, polygonOffset: true, polygonOffsetFactor: -4, polygonOffsetUnits: -4 });
+    this.scorchMat = new THREE.MeshBasicMaterial({ map: scorchTexture(), transparent: true, depthWrite: false });
+    this.scorchMat.map.colorSpace = THREE.SRGBColorSpace;
     this.decals = [];
     this.onShake = null;
     this.audio = null;
@@ -56,12 +61,21 @@ export class Effects {
   }
 
   scorch(pos, normal, size) {
-    const g = new THREE.PlaneGeometry(size, size);
+    const g = new THREE.PlaneGeometry(size, size, 8, 8);
+    g.rotateX(-Math.PI / 2);
+    g.rotateY(Math.random() * 6.28);
+    g.translate(pos.x, 0, pos.z);
+    const p = g.attributes.position, T = this.terrain;
+    const meshH = (x, z) => {
+      const x0 = Math.floor(x / 2) * 2, z0 = Math.floor(z / 2) * 2, fx = (x - x0) / 2, fz = (z - z0) / 2;
+      const a = T.heightAt(x0, z0), b = T.heightAt(x0 + 2, z0), c = T.heightAt(x0, z0 + 2), d = T.heightAt(x0 + 2, z0 + 2);
+      return (a + (b - a) * fx) * (1 - fz) + (c + (d - c) * fx) * fz;
+    };
+    for (let i = 0; i < p.count; i++) p.setY(i, meshH(p.getX(i), p.getZ(i)) + 0.06);
+    g.computeBoundingSphere();
     const m = new THREE.Mesh(g, this.scorchMat);
-    m.position.copy(pos).addScaledVector(normal, 0.04);
-    m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), normal);
-    m.rotateZ(Math.random() * 6.28);
     m.renderOrder = 2;
+    m.matrixAutoUpdate = false; m.updateMatrix();
     this.scene.add(m);
     this.decals.push(m);
     if (this.decals.length > 90) { const o = this.decals.shift(); this.scene.remove(o); o.geometry.dispose(); }

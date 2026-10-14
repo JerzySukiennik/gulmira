@@ -158,6 +158,8 @@ export class Vehicles {
     this.time += dt;
     const P = this.player;
     for (const v of this.list) {
+      const shown = v.pos.distanceTo(this.audio.listenerPos) < 4500;
+      if (v.model.visible !== shown) { v.model.visible = shown; v.model.matrixWorldAutoUpdate = shown; }
       if (v.dead) continue;
       if (v.engine) v.engine.at(v.pos);
       // drive along the path

@@ -1,5 +1,6 @@
 // CPU-simulated, GPU-drawn particles: lit soft smoke/dust (alpha) and fire/sparks/glows (additive).
 import * as THREE from 'three';
+import { DEPTH_GLSL } from '../core/renderer.js';
 
 const MAX_ALPHA = 9000;
 const MAX_ADD = 6000;
@@ -110,7 +111,7 @@ const FRAG = /* glsl */`
 uniform sampler2D tAtlas;
 uniform sampler2D tDepth;
 uniform vec2 uRes;
-uniform float uLogFar;
+${DEPTH_GLSL}
 uniform float uAdditive;
 uniform vec3 uSunDirP;
 uniform vec3 uSunColP;
@@ -130,7 +131,7 @@ void main() {
   float a = t.a * vCol.a;
   vec2 suv = gl_FragCoord.xy / uRes;
   float dz = texture2D(tDepth, suv).r;
-  float sceneZ = exp2(dz * uLogFar) - 1.0;
+  float sceneZ = viewDepth(dz);
   float soft = clamp((sceneZ - vViewZ) / max(0.4, vMisc.w * 0.0 + 1.2), 0.0, 1.0);
   a *= soft;
   if (a < 0.003) discard;
@@ -179,7 +180,7 @@ class Pool {
     g.boundingSphere = new THREE.Sphere(new THREE.Vector3(), 1e7);
     this.geometry = g;
     const uniforms = THREE.UniformsUtils.merge([THREE.UniformsLib.fog, {
-      tAtlas: { value: null }, tDepth: { value: null }, uRes: { value: new THREE.Vector2(1, 1) }, uLogFar: { value: 1 },
+      tAtlas: { value: null }, tDepth: { value: null }, uRes: { value: new THREE.Vector2(1, 1) }, uDepthP: { value: new THREE.Vector3() },
       uAdditive: { value: additive ? 1 : 0 }, uStretch: { value: additive ? 1 : 0 },
       uSunDirP: { value: new THREE.Vector3() }, uSunColP: { value: new THREE.Color() },
       uAmbient: { value: new THREE.Color(0.25, 0.28, 0.34) }, uGroundAmb: { value: new THREE.Color(0.16, 0.13, 0.1) },
@@ -222,7 +223,8 @@ export class Particles {
       const u = p.material.uniforms;
       u.tDepth.value = depthTex;
       u.uRes.value.set(w, h);
-      u.uLogFar.value = Math.log2(camera.far + 1);
+      if (renderer.capabilities.reverseDepthBuffer) u.uDepthP.value.set(1, camera.near, camera.far);
+      else u.uDepthP.value.set(0, camera.near, Math.log2(camera.far + 1));
     }
   }
 

@@ -22301,6 +22301,10 @@ function WebGLShadowMap( renderer, objects, capabilities ) {
 		const activeMipmapLevel = renderer.getActiveMipmapLevel();
 
 		const _state = renderer.state;
+		const _wasReversed = _state.buffers.depth.getReversed();
+		const _clipExt = _wasReversed ? renderer.extensions.get( 'EXT_clip_control' ) : null;
+		_state.buffers.depth.setReversed( false );
+		if ( _clipExt ) _clipExt.clipControlEXT( _clipExt.LOWER_LEFT_EXT, _clipExt.NEGATIVE_ONE_TO_ONE_EXT );
 
 		// Set GL state for depth map.
 		_state.setBlending( NoBlending );
@@ -22415,6 +22419,9 @@ function WebGLShadowMap( renderer, objects, capabilities ) {
 		_previousType = this.type;
 
 		scope.needsUpdate = false;
+
+		_state.buffers.depth.setReversed( _wasReversed );
+		if ( _clipExt ) _clipExt.clipControlEXT( _clipExt.LOWER_LEFT_EXT, _clipExt.ZERO_TO_ONE_EXT );
 
 		renderer.setRenderTarget( currentRenderTarget, activeCubeFace, activeMipmapLevel );
 
@@ -22727,6 +22734,12 @@ function WebGLState( gl ) {
 			setReversed: function ( value ) {
 
 				reversed = value;
+
+			},
+
+			getReversed: function () {
+
+				return reversed;
 
 			},
 
@@ -29315,7 +29328,7 @@ class WebGLRenderer {
 			if ( depth ) {
 
 				bits |= _gl.DEPTH_BUFFER_BIT;
-				_gl.clearDepth( this.capabilities.reverseDepthBuffer ? 0 : 1 );
+				_gl.clearDepth( this.capabilities.reverseDepthBuffer && state.buffers.depth.getReversed() ? 0 : 1 );
 
 			}
 
@@ -30699,7 +30712,7 @@ class WebGLRenderer {
 
 				// common camera uniforms
 
-				if ( capabilities.reverseDepthBuffer ) {
+				if ( capabilities.reverseDepthBuffer && state.buffers.depth.getReversed() ) {
 
 					_currentProjectionMatrix.copy( camera.projectionMatrix );
 

@@ -7,7 +7,7 @@ const browser = await chromium.launch({ channel: 'chrome', headless: true, args:
 const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 });
 page.on('pageerror', e => console.log('pageerror', e.message));
 page.on('console', m => { if (m.type() === 'error') console.log('console', m.text().slice(0, 200)); });
-await page.goto('http://localhost:8790/');
+await page.goto('http://localhost:8790/' + (process.env.Q ? '?' + process.env.Q : ''));
 await page.waitForFunction(() => window.__g && window.__g.ui && window.__g.mission, null, { timeout: 180000 });
 for (const spot of spots) {
   await page.evaluate(async (spot) => {
@@ -43,6 +43,16 @@ for (const spot of spots) {
       g.suit.visible = false;
     }
     for (let i = 0; i < 40; i++) g.tick(1 / 60);
+    if (flags.includes('scorch')) {
+      const f = new T.Vector3(-Math.sin(g.rig.yaw), 0, -Math.cos(g.rig.yaw));
+      for (let k = 0; k < 3; k++) { const sp = P.pos.clone().addScaledVector(f, 4 + k * 3); sp.y = g.terrain.heightAt(sp.x, sp.z); g.fx.scorch(sp, g.terrain.normalAt(sp.x, sp.z), 2.5); }
+    }
+    if (flags.includes('boom')) {
+      const f = new T.Vector3(-Math.sin(g.rig.yaw), 0, -Math.cos(g.rig.yaw));
+      const bp = P.pos.clone().addScaledVector(f, 18); bp.y = g.terrain.heightAt(bp.x, bp.z);
+      g.fx.explosion(bp, { size: 1.4, kind: 'large' });
+      for (let i = 0; i < (flags.includes('late') ? 200 : 25); i++) g.tick(1 / 60);
+    }
     g.props.update(g.camera, true);
     await g.shot(spot.replace(/\+/g, '-'));
     g.suit.visible = true;

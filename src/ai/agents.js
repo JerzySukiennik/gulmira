@@ -259,6 +259,8 @@ export class Agents {
     for (const a of this.all) {
       const h = a.h;
       if (a.gone) continue;
+      const shown = a.pos.distanceTo(listener) < 1100;
+      if (h.root.visible !== shown) { h.root.visible = shown; h.root.matrixWorldAutoUpdate = shown; }
       const d2p = a.pos.distanceTo(ppos);
       if (a.dead) {
         if (h.rag && h.rag.sleep < 3 && a.pos.distanceTo(listener) < 600) h.updateRagdoll(dt, (x, z) => this.terrain.heightAt(x, z), this.world);

@@ -319,6 +319,7 @@ export class Village {
       const meshes = tiles.map(tg => {
         const m = new THREE.Mesh(tg, mat);
         m.name = name; m.castShadow = shadow; m.receiveShadow = true;
+        m.matrixAutoUpdate = false; m.updateMatrix();
         this.group.add(m);
         return m;
       });

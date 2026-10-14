@@ -128,6 +128,7 @@ export function dressCache({ scene, terrain, world, atmo, center, rng = Math.ran
     const mid = new THREE.Vector3(cx, T.heightAt(cx, cz) + 0.35, cz);
     world.addBox(mid, new THREE.Vector3(len / 2, 0.35, 0.3), yaw, { kind: 'sandbags' });
   }
+  group.traverse(o => { o.updateMatrix(); o.matrixAutoUpdate = false; });
   scene.add(group);
   return { group, lights };
 }

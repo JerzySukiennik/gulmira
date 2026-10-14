@@ -102,7 +102,11 @@ varying vec3 vDir;
 void main() {
   vDir = normalize(position);
   vec4 p = projectionMatrix * mat4(mat3(viewMatrix)) * vec4(position, 1.0);
+#ifdef USE_REVERSEDEPTHBUF
+  gl_Position = vec4(p.xy, 0.0, p.w);
+#else
   gl_Position = p.xyww;
+#endif
 }`;
 
 const DOME_FRAG = /* glsl */`
@@ -286,7 +290,7 @@ export class Atmosphere {
     });
     this.dome = new THREE.Mesh(new THREE.SphereGeometry(1, 96, 48), this.domeMat);
     this.dome.frustumCulled = false;
-    this.dome.renderOrder = -1000;
+    this.dome.renderOrder = 1000;
     this.scene.add(this.dome);
   }
 

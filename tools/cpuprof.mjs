@@ -1,13 +1,14 @@
-// CPU sampling profile of the real loop during village combat: node tools/cpuprof.mjs [seconds]
+// CPU sampling profile of the real loop: node tools/cpuprof.mjs [seconds] [village|approach]
 import { chromium } from '/Users/jurek/openclaw/node_modules/playwright-core/index.mjs';
 
-const [sec = 5, W = 1440, H = 900] = process.argv.slice(2);
+const [sec = 5, spot = 'village', W = 1440, H = 900] = process.argv.slice(2);
 const browser = await chromium.launch({ channel: 'chrome', headless: true, args: ['--use-angle=metal', '--enable-gpu', '--ignore-gpu-blocklist', '--autoplay-policy=no-user-gesture-required'] });
 const page = await browser.newPage({ viewport: { width: +W, height: +H }, deviceScaleFactor: 1 });
 page.on('pageerror', e => console.log('pageerror', e.message));
-await page.goto('http://localhost:8790/?mission=0&at=village&pop=test');
+await page.goto('http://localhost:8790/' + (spot === 'village' ? '?mission=0&at=village&pop=test' : ''));
 await page.waitForFunction(() => window.__g && window.__g.ui, null, { timeout: 120000 });
-await page.evaluate(() => { const g = window.__g; g.ui.hideAll(); g.ui.state = 'playing'; g.player.locked = false; g.hud.visible = true; g.rig.cinematic = null; g.agents.alarm(g.player.pos.clone()); });
+await page.evaluate((spot) => { const g = window.__g; g.ui.hideAll(); g.ui.state = 'playing'; if (spot === 'approach') { g.mission.start(); return; } g.player.locked = false; g.hud.visible = true; g.rig.cinematic = null; g.agents.alarm(g.player.pos.clone()); }, spot);
+await page.waitForTimeout(spot === 'approach' ? 8000 : 0);
 await page.waitForTimeout(3000);
 const cdp = await page.context().newCDPSession(page);
 await cdp.send('Profiler.enable');

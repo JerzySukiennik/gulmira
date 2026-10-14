@@ -67,6 +67,12 @@ void main() {
   gl_FragColor = vec4(mix(prev, cur, k), 0.0, 0.0, 1.0);
 }`;
 
+export const DEPTH_GLSL = /* glsl */`
+uniform vec3 uDepthP;
+float viewDepth(float d) { return uDepthP.x > 0.5 ? uDepthP.y * uDepthP.z / (d * (uDepthP.z - uDepthP.y) + uDepthP.y) : exp2(d * uDepthP.z) - 1.0; }
+float isSky(float d) { return uDepthP.x > 0.5 ? step(d, 1e-7) : step(0.99995, d); }
+`;
+
 const FINAL_FRAG = /* glsl */`
 precision highp float;
 uniform sampler2D tScene;
@@ -88,7 +94,6 @@ uniform vec3 uFlashCol;
 uniform float uDamage;
 uniform float uBlurAmt;
 uniform vec2 uBlurDir;
-uniform float uLogFar;
 uniform mat4 uPrevVP;
 uniform mat4 uInvVP;
 uniform float uMotion;
@@ -99,6 +104,7 @@ uniform vec3 uSunTint;
 uniform sampler2D tAE;
 uniform vec4 uAE;
 varying vec2 vUv;
+${DEPTH_GLSL}
 vec3 aces(vec3 x) {
   const mat3 ACESIn = mat3(0.59719, 0.07600, 0.02840, 0.35458, 0.90834, 0.13383, 0.04823, 0.01566, 0.83777);
   const mat3 ACESOut = mat3(1.60475, -0.10208, -0.00327, -0.53108, 1.10813, -0.07276, -0.07367, -0.00605, 1.07602);
@@ -124,7 +130,7 @@ void main() {
   vec3 col = sceneAt(uv);
   if (uMotion > 0.0 && base.a > 0.5) {
     float dz = texture2D(tDepth, uv).r;
-    float w = exp2(dz * uLogFar) - 1.0;
+    float w = viewDepth(dz);
     vec2 ndc = uv * 2.0 - 1.0;
     vec4 wp = uInvVP * vec4(ndc * w, uProjZ.x * w + uProjZ.y, w);
     wp /= wp.w;
@@ -164,7 +170,7 @@ void main() {
       float t = (float(i) + j) / 28.0;
       vec2 su = uv + dv * t * 0.92;
       float dz = texture2D(tDepth, su).r;
-      float sky = step(0.99995, dz);
+      float sky = isSky(dz);
       vec3 c = texture2D(tScene, su).rgb;
       shafts += max(c - 1.2, vec3(0.0)) * sky * decay;
       decay *= 0.955;
@@ -196,7 +202,12 @@ void main() {
 
 export class Renderer {
   constructor(canvas) {
-    const r = new THREE.WebGLRenderer({ canvas, antialias: false, powerPreference: 'high-performance', logarithmicDepthBuffer: true, stencil: false });
+    const probe = document.createElement('canvas').getContext('webgl2', { powerPreference: 'high-performance' });
+    const clip = !!(probe && probe.getExtension('EXT_clip_control'));
+    if (probe) { const lose = probe.getExtension('WEBGL_lose_context'); if (lose) lose.loseContext(); }
+    const reversed = clip && !location.search.includes('logdepth');
+    const r = new THREE.WebGLRenderer({ canvas, antialias: false, powerPreference: 'high-performance', logarithmicDepthBuffer: !reversed, reverseDepthBuffer: reversed, stencil: false });
+    this.reversed = r.capabilities.reverseDepthBuffer;
     r.shadowMap.enabled = true;
     r.shadowMap.type = THREE.PCFSoftShadowMap;
     r.shadowMap.autoUpdate = false;
@@ -231,7 +242,7 @@ export class Renderer {
         uLift: { value: new THREE.Vector3() }, uGain: { value: new THREE.Vector3(1, 1, 1) },
         uFlash: { value: 0 }, uFlashCol: { value: new THREE.Vector3(1, 1, 1) }, uDamage: { value: 0 },
         uBlurAmt: { value: 0 }, uBlurDir: { value: new THREE.Vector2() },
-        uLogFar: { value: 1 }, uPrevVP: { value: new THREE.Matrix4() }, uInvVP: { value: new THREE.Matrix4() }, uMotion: { value: 0 }, uProjZ: { value: new THREE.Vector2() },
+        uDepthP: { value: new THREE.Vector3() }, uPrevVP: { value: new THREE.Matrix4() }, uInvVP: { value: new THREE.Matrix4() }, uMotion: { value: 0 }, uProjZ: { value: new THREE.Vector2() },
         uSunUV: { value: new THREE.Vector2() }, uSunAmt: { value: 0 }, uSunTint: { value: new THREE.Color(1.0, 0.72, 0.45) },
         tAE: { value: null }, uAE: { value: new THREE.Vector4() },
       },
@@ -298,6 +309,10 @@ export class Renderer {
 
   setScale(s) { this.scale = s; this.resize(); }
 
+  depthParams(camera, out) {
+    return this.reversed ? out.set(1, camera.near, camera.far) : out.set(0, camera.near, Math.log2(camera.far + 1));
+  }
+
   bloomPass() {
     const r = this.renderer;
     let src = this.sceneRT.texture;
@@ -352,6 +367,9 @@ export class Renderer {
     r.clear();
     r.shadowMap.needsUpdate = !this.skipShadows;
     if (!this.skipShadows && this.planShadows) this.planShadows();
+    scene.updateMatrixWorld();
+    const autoWorld = scene.matrixWorldAutoUpdate;
+    scene.matrixWorldAutoUpdate = false;
     camera.layers.set(0);
     r.render(scene, camera);
     if (beforeFx) beforeFx(this.sceneRT.depthTexture);
@@ -360,6 +378,7 @@ export class Renderer {
     r.render(scene, camera);
     r.autoClear = true;
     camera.layers.enableAll();
+    scene.matrixWorldAutoUpdate = autoWorld;
     const bloom = this.bloomPass();
     const u = this.finalMat.uniforms, p = this.params;
     u.tAE.value = this.aePass(dt);
@@ -381,7 +400,7 @@ export class Renderer {
     u.uDamage.value = this.damage;
     u.uBlurAmt.value = this.blurAmt;
     u.uBlurDir.value.copy(this.blurDir);
-    u.uLogFar.value = Math.log2(camera.far + 1);
+    this.depthParams(camera, u.uDepthP.value);
     u.uProjZ.value.set(-camera.projectionMatrix.elements[10], camera.projectionMatrix.elements[14]);
     if (this.sunDir) {
       const sp = camera.position.clone().addScaledVector(this.sunDir, 10000).project(camera);
