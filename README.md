@@ -37,13 +37,15 @@ URL switches for testing: `?mission=0` (free roam), `?at=village` (start in the 
 - **Atmosphere**: a precomputed Nishita sky LUT (Rayleigh, Mie and ozone) drives the sky dome, procedural clouds, aerial perspective and image-based lighting. Cascaded shadow maps are refreshed on a staggered schedule.
 - **Mk III**: the armour is generated in code. Plates are cut from superellipse loft surfaces, the shader adds panel lines, rivets, dust and scratches, and the animation is procedural (flight, hover, aim IK, the superhero landing, shoulder micro-missile pods and the forearm launcher).
 - **People and vehicles**: hand-scripted skinned humans with procedural animation and Verlet ragdolls. Procedural T-72, Hilux technical with a DShK, MAZ-543 with a Scud, ZU-23 and F-22.
-- **Rendering**: HDR with MSAA and a logarithmic depth buffer, soft depth-aware particles, mip-chain bloom, camera motion blur, sun shafts and ACES tone mapping.
+- **Rendering**: HDR with MSAA and a reversed-Z float depth buffer (logarithmic depth as a fallback), soft depth-aware particles, mip-chain bloom, GPU auto exposure, camera motion blur, sun shafts and ACES tone mapping. `vendor/three.module.js` carries a small patch so shadow maps work with reversed depth in r169.
 - **Audio**: Web Audio with HRTF panning, distance filtering, the speed-of-sound delay and convolution reverb. JARVIS speaks through the browser's speech synthesis.
 
 ## Tools
 
 - `tools/serve.py`: no-cache dev server. It also saves screenshots posted from the game (`G.shot(name)`).
-- `tools/playtest.mjs`, `tools/profile.mjs`, `tools/cpuprof.mjs`: real-loop FPS, GPU cost breakdown and CPU profile in headless Chrome.
+- `tools/playtest.mjs`, `tools/gpuprof.mjs`, `tools/cpuprof.mjs`, `tools/profile.mjs`: real-loop FPS, GPU timer-query cost per scene category and CPU profile in headless Chrome.
+- `tools/flowtest.mjs`: steps through every mission phase with scripted kills and reports errors.
+- `tools/shots.mjs`: still frames from fixed camera spots, with toggles for shadows, fog and effects.
 - `tools/bake-props.py`: Blender script that decimates Poly Haven scans into LOD GLBs.
 - `tools/suit-viewer.html`, `tools/human-viewer.html`, `tools/vehicle-viewer.html`: model viewers.
 
