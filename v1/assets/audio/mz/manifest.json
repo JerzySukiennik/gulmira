@@ -1,0 +1,428 @@
+{
+ "sfx": {
+  "thruster_idle": {
+   "file": "assets/audio/mz/thruster_idle.mp3",
+   "dur": 3.2,
+   "src": "draken",
+   "note": "turbojet at taxi idle \u2014 the idle bed",
+   "loop": true,
+   "loopStart": 0.03,
+   "loopEnd": 3.17
+  },
+  "thruster_mid": {
+   "file": "assets/audio/mz/thruster_mid.mp3",
+   "dur": 3.2,
+   "src": "draken",
+   "note": "turbojet start burst \u2014 the working roar",
+   "loop": true,
+   "loopStart": 0.03,
+   "loopEnd": 3.17
+  },
+  "thruster_whine": {
+   "file": "assets/audio/mz/thruster_whine.mp3",
+   "dur": 3.2,
+   "src": "draken",
+   "note": "compressor tone ladder \u2014 the blade-passing whine",
+   "loop": true,
+   "loopStart": 0.03,
+   "loopEnd": 3.17
+  },
+  "thruster_hot": {
+   "file": "assets/audio/mz/thruster_hot.mp3",
+   "dur": 3.2,
+   "src": "sandblast",
+   "note": "high-pressure nozzle \u2014 the near-field scream",
+   "loop": true,
+   "loopStart": 0.03,
+   "loopEnd": 3.17
+  },
+  "thruster_sub": {
+   "file": "assets/audio/mz/thruster_sub.mp3",
+   "dur": 4.0,
+   "src": "rumble",
+   "note": "deep rumble under the jet, felt not heard",
+   "loop": true,
+   "loopStart": 0.03,
+   "loopEnd": 3.97
+  },
+  "wind_low": {
+   "file": "assets/audio/mz/wind_low.mp3",
+   "dur": 4.0,
+   "src": "windy_day",
+   "note": "outdoor wind, body",
+   "loop": true,
+   "loopStart": 0.03,
+   "loopEnd": 3.97
+  },
+  "wind_high": {
+   "file": "assets/audio/mz/wind_high.mp3",
+   "dur": 4.0,
+   "src": "fan",
+   "note": "airflow hiss, rises with airspeed",
+   "loop": true,
+   "loopStart": 0.03,
+   "loopEnd": 3.97
+  },
+  "wind_gust": {
+   "file": "assets/audio/mz/wind_gust.mp3",
+   "dur": 4.0,
+   "src": "wind_outside_atmosphere",
+   "note": "gusting, layered in at high speed",
+   "loop": true,
+   "loopStart": 0.03,
+   "loopEnd": 3.97
+  },
+  "reactor": {
+   "file": "assets/audio/mz/reactor.mp3",
+   "dur": 4.0,
+   "src": "air_conditioner_hum",
+   "note": "steady machine hum = the reactor",
+   "loop": true,
+   "loopStart": 0.03,
+   "loopEnd": 3.97
+  },
+  "servo_heavy": {
+   "file": "assets/audio/mz/servo_heavy.mp3",
+   "dur": 1.6,
+   "src": "scratching_metal_door",
+   "note": "Mk I \u2014 scrap iron grinding",
+   "loop": true,
+   "loopStart": 0.03,
+   "loopEnd": 1.57
+  },
+  "servo_grind": {
+   "file": "assets/audio/mz/servo_grind.mp3",
+   "dur": 0.9,
+   "src": "mechanical_sound",
+   "note": "Mk I / Mk II \u2014 motor under load",
+   "loop": true,
+   "loopStart": 0.03,
+   "loopEnd": 0.87
+  },
+  "servo_fine": {
+   "file": "assets/audio/mz/servo_fine.mp3",
+   "dur": 2.2,
+   "src": "sand_down_metal_slide",
+   "note": "Mk II / Mk III \u2014 clean servo whine",
+   "loop": true,
+   "loopStart": 0.03,
+   "loopEnd": 2.17
+  },
+  "servo_fast": {
+   "file": "assets/audio/mz/servo_fast.mp3",
+   "dur": 2.4,
+   "src": "rubbing_metal_door",
+   "note": "Mk XLII \u2014 fast actuators",
+   "loop": true,
+   "loopStart": 0.03,
+   "loopEnd": 2.37
+  },
+  "repulsor_charge": {
+   "file": "assets/audio/mz/repulsor_charge.mp3",
+   "dur": 1.699,
+   "src": "charging_1",
+   "note": "palm spinning up"
+  },
+  "repulsor_charge_big": {
+   "file": "assets/audio/mz/repulsor_charge_big.mp3",
+   "dur": 1.998,
+   "src": "charging_2",
+   "note": "heavier charge, Mk I and the chest beam"
+  },
+  "repulsor_fire_a": {
+   "file": "assets/audio/mz/repulsor_fire_a.mp3",
+   "dur": 0.5,
+   "src": "attack",
+   "note": "the punch of the blast"
+  },
+  "repulsor_fire_b": {
+   "file": "assets/audio/mz/repulsor_fire_b.mp3",
+   "dur": 0.25,
+   "src": "laser_3",
+   "note": "the low discharge"
+  },
+  "repulsor_fire_c": {
+   "file": "assets/audio/mz/repulsor_fire_c.mp3",
+   "dur": 0.9,
+   "src": "spell_attack_2",
+   "note": "blast with a longer tail"
+  },
+  "repulsor_tail": {
+   "file": "assets/audio/mz/repulsor_tail.mp3",
+   "dur": 0.278,
+   "src": "portal_1",
+   "note": "the electric zip that follows the shot"
+  },
+  "repulsor_hit": {
+   "file": "assets/audio/mz/repulsor_hit.mp3",
+   "dur": 0.273,
+   "src": "bfh",
+   "note": "projectile landing"
+  },
+  "concrete_a": {
+   "file": "assets/audio/mz/concrete_a.mp3",
+   "dur": 1.147,
+   "src": "bfh"
+  },
+  "concrete_b": {
+   "file": "assets/audio/mz/concrete_b.mp3",
+   "dur": 0.865,
+   "src": "bfh"
+  },
+  "concrete_c": {
+   "file": "assets/audio/mz/concrete_c.mp3",
+   "dur": 0.129,
+   "src": "bfh"
+  },
+  "rubble_a": {
+   "file": "assets/audio/mz/rubble_a.mp3",
+   "dur": 0.555,
+   "src": "bfh"
+  },
+  "rubble_b": {
+   "file": "assets/audio/mz/rubble_b.mp3",
+   "dur": 2.2,
+   "src": "dropping_rocks_on_ground"
+  },
+  "gravel_land": {
+   "file": "assets/audio/mz/gravel_land.mp3",
+   "dur": 0.929,
+   "src": "land_in_gravel"
+  },
+  "metal_a": {
+   "file": "assets/audio/mz/metal_a.mp3",
+   "dur": 0.26,
+   "src": "metal_pole_hit"
+  },
+  "metal_b": {
+   "file": "assets/audio/mz/metal_b.mp3",
+   "dur": 0.6,
+   "src": "metal_pole_hit_3"
+  },
+  "metal_c": {
+   "file": "assets/audio/mz/metal_c.mp3",
+   "dur": 0.3,
+   "src": "metal_pole_hit_7"
+  },
+  "metal_d": {
+   "file": "assets/audio/mz/metal_d.mp3",
+   "dur": 0.442,
+   "src": "bfh"
+  },
+  "metal_heavy": {
+   "file": "assets/audio/mz/metal_heavy.mp3",
+   "dur": 1.2,
+   "src": "slam_closet_door",
+   "note": "the big one \u2014 a wall panel landing"
+  },
+  "metal_light": {
+   "file": "assets/audio/mz/metal_light.mp3",
+   "dur": 0.543,
+   "src": "metal_hit"
+  },
+  "metal_debris": {
+   "file": "assets/audio/mz/metal_debris.mp3",
+   "dur": 0.733,
+   "src": "bfh"
+  },
+  "wood_break": {
+   "file": "assets/audio/mz/wood_break.mp3",
+   "dur": 0.242,
+   "src": "bfh"
+  },
+  "clank_scrap": {
+   "file": "assets/audio/mz/clank_scrap.mp3",
+   "dur": 0.32,
+   "src": "metal_pole_hit_7",
+   "note": "Mk I \u2014 dull, heavy, unresonant"
+  },
+  "clank_plate": {
+   "file": "assets/audio/mz/clank_plate.mp3",
+   "dur": 0.26,
+   "src": "metal_pole_hit",
+   "note": "Mk II / Mk III \u2014 a machined plate seating"
+  },
+  "clank_light": {
+   "file": "assets/audio/mz/clank_light.mp3",
+   "dur": 0.443,
+   "src": "metal_hit",
+   "note": "Mk XLII \u2014 small fast plates"
+  },
+  "latch": {
+   "file": "assets/audio/mz/latch.mp3",
+   "dur": 0.341,
+   "src": "lock",
+   "note": "a lock engaging"
+  },
+  "hud_blip": {
+   "file": "assets/audio/mz/hud_blip.mp3",
+   "dur": 0.159,
+   "src": "computer_sounds_1"
+  },
+  "hud_tick": {
+   "file": "assets/audio/mz/hud_tick.mp3",
+   "dur": 0.13,
+   "src": "computer_sounds_1"
+  },
+  "hud_scan": {
+   "file": "assets/audio/mz/hud_scan.mp3",
+   "dur": 0.899,
+   "src": "computer_sound"
+  },
+  "hud_select": {
+   "file": "assets/audio/mz/hud_select.mp3",
+   "dur": 0.279,
+   "src": "selection_3"
+  },
+  "hud_confirm": {
+   "file": "assets/audio/mz/hud_confirm.mp3",
+   "dur": 0.369,
+   "src": "accept_6"
+  },
+  "hud_warn": {
+   "file": "assets/audio/mz/hud_warn.mp3",
+   "dur": 0.794,
+   "src": "error_3"
+  },
+  "hud_alarm": {
+   "file": "assets/audio/mz/hud_alarm.mp3",
+   "dur": 1.398,
+   "src": "alarm_2"
+  },
+  "hud_notify": {
+   "file": "assets/audio/mz/hud_notify.mp3",
+   "dur": 0.6,
+   "src": "notification"
+  },
+  "hud_click": {
+   "file": "assets/audio/mz/hud_click.mp3",
+   "dur": 0.18,
+   "src": "clicking"
+  },
+  "suit_ready": {
+   "file": "assets/audio/mz/suit_ready.mp3",
+   "dur": 1.062,
+   "src": "complete"
+  },
+  "step_01": {
+   "file": "assets/audio/mz/step-01.mp3",
+   "dur": 0.442,
+   "src": "jurek",
+   "note": "armored footstep, take 1 of 16 \u2014 supplied by Jurek, do not replace"
+  },
+  "step_02": {
+   "file": "assets/audio/mz/step-02.mp3",
+   "dur": 0.441,
+   "src": "jurek",
+   "note": "armored footstep, take 2 of 16 \u2014 supplied by Jurek, do not replace"
+  },
+  "step_03": {
+   "file": "assets/audio/mz/step-03.mp3",
+   "dur": 0.44,
+   "src": "jurek",
+   "note": "armored footstep, take 3 of 16 \u2014 supplied by Jurek, do not replace"
+  },
+  "step_04": {
+   "file": "assets/audio/mz/step-04.mp3",
+   "dur": 0.462,
+   "src": "jurek",
+   "note": "armored footstep, take 4 of 16 \u2014 supplied by Jurek, do not replace"
+  },
+  "step_05": {
+   "file": "assets/audio/mz/step-05.mp3",
+   "dur": 0.461,
+   "src": "jurek",
+   "note": "armored footstep, take 5 of 16 \u2014 supplied by Jurek, do not replace"
+  },
+  "step_06": {
+   "file": "assets/audio/mz/step-06.mp3",
+   "dur": 0.458,
+   "src": "jurek",
+   "note": "armored footstep, take 6 of 16 \u2014 supplied by Jurek, do not replace"
+  },
+  "step_07": {
+   "file": "assets/audio/mz/step-07.mp3",
+   "dur": 0.468,
+   "src": "jurek",
+   "note": "armored footstep, take 7 of 16 \u2014 supplied by Jurek, do not replace"
+  },
+  "step_08": {
+   "file": "assets/audio/mz/step-08.mp3",
+   "dur": 0.45,
+   "src": "jurek",
+   "note": "armored footstep, take 8 of 16 \u2014 supplied by Jurek, do not replace"
+  },
+  "step_09": {
+   "file": "assets/audio/mz/step-09.mp3",
+   "dur": 0.452,
+   "src": "jurek",
+   "note": "armored footstep, take 9 of 16 \u2014 supplied by Jurek, do not replace"
+  },
+  "step_10": {
+   "file": "assets/audio/mz/step-10.mp3",
+   "dur": 0.475,
+   "src": "jurek",
+   "note": "armored footstep, take 10 of 16 \u2014 supplied by Jurek, do not replace"
+  },
+  "step_11": {
+   "file": "assets/audio/mz/step-11.mp3",
+   "dur": 0.458,
+   "src": "jurek",
+   "note": "armored footstep, take 11 of 16 \u2014 supplied by Jurek, do not replace"
+  },
+  "step_12": {
+   "file": "assets/audio/mz/step-12.mp3",
+   "dur": 0.457,
+   "src": "jurek",
+   "note": "armored footstep, take 12 of 16 \u2014 supplied by Jurek, do not replace"
+  },
+  "step_13": {
+   "file": "assets/audio/mz/step-13.mp3",
+   "dur": 0.454,
+   "src": "jurek",
+   "note": "armored footstep, take 13 of 16 \u2014 supplied by Jurek, do not replace"
+  },
+  "step_14": {
+   "file": "assets/audio/mz/step-14.mp3",
+   "dur": 0.452,
+   "src": "jurek",
+   "note": "armored footstep, take 14 of 16 \u2014 supplied by Jurek, do not replace"
+  },
+  "step_15": {
+   "file": "assets/audio/mz/step-15.mp3",
+   "dur": 0.45,
+   "src": "jurek",
+   "note": "armored footstep, take 15 of 16 \u2014 supplied by Jurek, do not replace"
+  },
+  "step_16": {
+   "file": "assets/audio/mz/step-16.mp3",
+   "dur": 0.488,
+   "src": "jurek",
+   "note": "armored footstep, take 16 of 16 \u2014 supplied by Jurek, do not replace"
+  },
+  "jurek_repulsor_01": {
+   "file": "assets/audio/mz/repulsor-01.mp3",
+   "dur": 0.95,
+   "src": "jurek",
+   "note": "palm repulsor discharge, take 1 of 6 \u2014 supplied by Jurek, do not replace"
+  },
+  "jurek_repulsor_02": {
+   "file": "assets/audio/mz/repulsor-02.mp3",
+   "dur": 0.95,
+   "src": "jurek",
+   "note": "palm repulsor discharge, take 2 of 6 \u2014 supplied by Jurek, do not replace"
+  },
+  "jurek_repulsor_03": {
+   "file": "assets/audio/mz/repulsor-03.mp3",
+   "dur": 0.94,
+   "src": "jurek",
+   "note": "palm repulsor discharge, take 3 of 6 \u2014 supplied by Jurek, do not replace"
+  },
+  "jurek_repulsor_04": {
+   "file": "assets/audio/mz/repulsor-04.mp3",
+   "dur": 1.0,
+   "src": "jurek",
+   "note": "palm repulsor discharge, take 4 of 6 \u2014 supplied by Jurek, do not replace"
+  }
+ }
+}

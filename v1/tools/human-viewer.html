@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Human Viewer</title>
+<style>html,body{margin:0;height:100%;background:#1a1b1e;overflow:hidden}canvas{display:block}</style>
+<script type="importmap">{ "imports": { "three": "../vendor/three.module.js", "three/addons/": "../vendor/addons/" } }</script>
+</head>
+<body>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { buildHumanGeometry, buildAK, buildRPG, PALETTES } from '../src/ai/humanModel.js';
+import { Human } from '../src/ai/human.js';
+
+const r = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+r.setPixelRatio(1);
+const VW = innerWidth > 200 ? innerWidth : 1280, VH = innerHeight > 200 ? innerHeight : 720;
+r.setSize(VW, VH);
+r.toneMapping = THREE.ACESFilmicToneMapping;
+r.shadowMap.enabled = true;
+document.body.appendChild(r.domElement);
+const scene = new THREE.Scene();
+scene.background = new THREE.Color('#5b5650');
+const pm = new THREE.PMREMGenerator(r);
+scene.environment = pm.fromScene(new RoomEnvironment(), 0.04).texture;
+scene.environmentIntensity = 0.6;
+const key = new THREE.DirectionalLight(0xffe2c0, 2.4);
+key.position.set(-4, 3, -3); key.castShadow = true; key.shadow.mapSize.set(2048, 2048);
+key.shadow.camera.left = key.shadow.camera.bottom = -4; key.shadow.camera.right = key.shadow.camera.top = 4;
+scene.add(key);
+const floor = new THREE.Mesh(new THREE.PlaneGeometry(20, 20), new THREE.MeshStandardMaterial({ color: '#8a7a62', roughness: 0.95 }));
+floor.rotation.x = -Math.PI / 2; floor.receiveShadow = true; scene.add(floor);
+const fakeAtmo = { patch: (m, o = {}) => { m.onBeforeCompile = (sh, rr) => { if (o.extra) o.extra(sh, rr); }; m.customProgramCacheKey = () => 'h' + Math.random(); return m; } };
+import('../src/ai/humanModel.js').then(async (HM) => {
+  const mats = {
+    gunmetal: new THREE.MeshStandardMaterial({ color: '#1e1f22', metalness: 0.8, roughness: 0.45 }),
+    wood: new THREE.MeshStandardMaterial({ color: '#6b3a1e', roughness: 0.6 }),
+    olive: new THREE.MeshStandardMaterial({ color: '#4a5236', roughness: 0.7 }),
+  };
+  const variants = [
+    { opts: { headwear: 'turban', beard: 1, vest: true, gear: true }, weapon: 'ak', mode: 'idle', pal: ['#8a5a3c', '#b9b09c', '#8f8a7d', '#2d2c2a', '#2c2b29', '#1b1714', '#3a3026', '#3a3a34', '#000', '#050505'] },
+    { opts: { headwear: 'shemagh', beard: 1, vest: true, gear: true }, weapon: 'ak', mode: 'aim', pal: ['#9b6a48', '#6f6a5f', '#4f4b44', '#24262a', '#d9d2c2', '#1b1714', '#2a2620', '#33362c', '#000', '#050505'] },
+    { opts: { headwear: 'pakol', beard: 1, vest: false, gear: true }, weapon: 'rpg', mode: 'rpg', pal: ['#7a4e33', '#7d6f58', '#5d5446', '#2d2c2a', '#7a6f5d', '#24201c', '#2e2924', '#3a3a34', '#000', '#050505'], kind: 'rpg' },
+    { opts: { headwear: 'cap', beard: 1, vest: false, gear: false }, weapon: null, mode: 'kneel', pal: ['#a87a58', '#cfc6b4', '#c7c2b8', '#2d2c2a', '#e8e2d4', '#2e2924', '#4a3a2a', '#000', '#000', '#050505'] },
+    { opts: { burqa: true, beard: 0 }, weapon: null, mode: 'kneel', pal: ['#a87a58', '#000', '#000', '#000', '#000', '#000', '#3a3026', '#000', '#4f6f9f', '#1a2638'] },
+    { opts: { headwear: 'turban', beard: 1, vest: true, gear: false }, weapon: null, mode: 'walk', pal: ['#8a5a3c', '#a39a87', '#a39a87', '#3a352e', '#e8e2d4', '#24201c', '#3a3026', '#000', '#000', '#050505'] },
+  ];
+  const humans = [];
+  variants.forEach((v, i) => {
+    const geo = HM.buildHumanGeometry(v.opts);
+    const mat = HM.makeHumanMaterial(fakeAtmo, v.pal);
+    const weapon = v.weapon === 'ak' ? HM.buildAK(mats) : v.weapon === 'rpg' ? HM.buildRPG(mats) : null;
+    const h = new Human({ geometry: geo, material: mat, weapon, kind: v.kind || 'fighter' });
+    h.root.position.set(-3.2 + i * 1.3, 0, 0);
+    scene.add(h.root);
+    humans.push({ h, v });
+  });
+  const cam = new THREE.PerspectiveCamera(32, VW / VH, 0.05, 100);
+  const params = new URLSearchParams(location.search);
+  const view = params.get('view') || 'all';
+  if (view === 'all') cam.position.set(0, 1.4, -9);
+  else { const i = Number(view); cam.position.set(-3.2 + i * 1.3 + 0.8, 1.6, -2.0); }
+  const ctl = new OrbitControls(cam, r.domElement);
+  ctl.target.set(view === 'all' ? 0 : -3.2 + Number(view) * 1.3, view === 'all' ? 0.9 : 1.3, 0);
+  ctl.update();
+  const aimDir = new THREE.Vector3(0.2, 0.05, -1).normalize();
+  let t = 0;
+  window.__h = { humans, step: (n = 60) => { for (let i = 0; i < n; i++) tick(1 / 60); r.render(scene, cam); }, scene, cam, ragdoll: (i) => humans[i].h.startRagdoll(new THREE.Vector3(0, 3, 6)) };
+  function tick(dt) {
+    t += dt;
+    for (const { h, v } of humans) {
+      if (h.rag) { h.updateRagdoll(dt, () => 0, null); continue; }
+      h.update(dt, { mode: v.mode, speed: v.mode === 'walk' ? 1.3 : 0, aimDir, aimWeight: v.mode === 'aim' || v.mode === 'rpg' ? 1 : 0 });
+      if (v.mode === 'walk') h.root.position.z -= 1.3 * dt * 0;
+    }
+  }
+  const loop = () => { tick(1 / 60); ctl.update(); r.render(scene, cam); requestAnimationFrame(loop); };
+  loop();
+});
+</script>
+</body>
+</html>

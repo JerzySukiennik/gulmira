@@ -1,0 +1,122 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Vehicle Viewer</title>
+<style>html,body{margin:0;height:100%;background:#1a1b1e;overflow:hidden}canvas{display:block}</style>
+<script type="importmap">{ "imports": { "three": "../vendor/three.module.js", "three/addons/": "../vendor/addons/" } }</script>
+</head>
+<body>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import * as MODELS from '../src/vehicles/armor.js';
+
+const params = new URLSearchParams(location.search);
+const name = params.get('model') || 'technical';
+const view = params.get('view') || 'three';
+
+const r = new THREE.WebGLRenderer({ antialias: true });
+r.setPixelRatio(Math.min(2, devicePixelRatio));
+const VW = innerWidth > 200 ? innerWidth : 1280, VH = innerHeight > 200 ? innerHeight : 720;
+r.setSize(VW, VH);
+r.toneMapping = THREE.ACESFilmicToneMapping;
+r.toneMappingExposure = 1.0;
+r.shadowMap.enabled = true;
+r.shadowMap.type = THREE.PCFSoftShadowMap;
+document.body.appendChild(r.domElement);
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color('#202126');
+const pm = new THREE.PMREMGenerator(r);
+scene.environment = pm.fromScene(new RoomEnvironment(), 0.04).texture;
+scene.environmentIntensity = 0.55;
+
+const key = new THREE.DirectionalLight(0xfff1e0, 2.2);
+key.castShadow = true;
+key.shadow.mapSize.set(2048, 2048);
+key.shadow.bias = -0.0003;
+key.shadow.normalBias = 0.02;
+scene.add(key);
+scene.add(key.target);
+const rim = new THREE.DirectionalLight(0xcfe0ff, 1.6);
+scene.add(rim);
+
+const paints = new Map();
+const M = {
+  paint: hex => {
+    if (!paints.has(hex)) paints.set(hex, new THREE.MeshStandardMaterial({ color: hex, roughness: 0.62, metalness: 0.2 }));
+    return paints.get(hex);
+  },
+  glass: new THREE.MeshStandardMaterial({ color: '#1b2226', roughness: 0.05, metalness: 0.5 }),
+  rubber: new THREE.MeshStandardMaterial({ color: '#141414', roughness: 0.95, metalness: 0 }),
+  metal: new THREE.MeshStandardMaterial({ color: '#8a8d90', roughness: 0.45, metalness: 0.8 }),
+  dark: new THREE.MeshStandardMaterial({ color: '#2a2d30', roughness: 0.55, metalness: 0.6 }),
+  chrome: new THREE.MeshStandardMaterial({ color: '#dfe3e6', roughness: 0.15, metalness: 1 }),
+  light: new THREE.MeshStandardMaterial({ color: '#fff1d0', emissive: '#ffd9a0', emissiveIntensity: 1.6, roughness: 0.3 }),
+  canvas: new THREE.MeshStandardMaterial({ color: '#5a5c3e', roughness: 0.95 }),
+};
+
+let root = null, error = null;
+try {
+  const build = MODELS[{ technical: 'buildTechnical', tank: 'buildTank', tel: 'buildTEL', zu23: 'buildZU23', f22: 'buildF22' }[name]];
+  if (!build) throw new Error('unknown model ' + name);
+  root = build(M);
+} catch (e) {
+  error = String(e && e.stack || e);
+  console.error(error);
+}
+
+let tris = 0;
+const cam = new THREE.PerspectiveCamera(30, VW / VH, 0.05, 200);
+const ctl = new OrbitControls(cam, r.domElement);
+const sz = new THREE.Vector3(1, 1, 1), c = new THREE.Vector3(0, 0.5, 0);
+
+if (root) {
+  scene.add(root);
+  root.updateMatrixWorld(true);
+  root.traverse(o => { if (o.isMesh) tris += (o.geometry.index ? o.geometry.index.count : o.geometry.attributes.position.count) / 3; });
+  const box = new THREE.Box3().setFromObject(root);
+  box.getSize(sz);
+  box.getCenter(c);
+  const R = Math.max(sz.x, sz.y, sz.z);
+  key.position.copy(c).add(new THREE.Vector3(-R * 0.7, R * 1.1, -R * 0.8));
+  key.target.position.copy(c);
+  const sh = key.shadow.camera;
+  sh.left = sh.bottom = -R * 0.8;
+  sh.right = sh.top = R * 0.8;
+  sh.near = 0.1;
+  sh.far = R * 6;
+  sh.updateProjectionMatrix();
+  rim.position.copy(c).add(new THREE.Vector3(R * 0.9, R * 0.6, R * 0.8));
+  const floor = new THREE.Mesh(new THREE.CircleGeometry(R * 1.4 + 2, 64), new THREE.MeshStandardMaterial({ color: '#3a3b40', roughness: 0.85 }));
+  floor.rotation.x = -Math.PI / 2;
+  floor.receiveShadow = true;
+  scene.add(floor);
+
+  const dirs = { three: [-0.62, 0.42, -0.66], front: [0, 0.22, -1], side: [1, 0.2, 0], back: [0, 0.22, 1], top: [0.001, 1, 0.001] };
+  const d = new THREE.Vector3(...(dirs[view] || dirs.three)).normalize();
+  const rad = Math.hypot(sz.x, sz.y, sz.z) / 2;
+  const zoom = +(params.get('zoom') || 1);
+  const dist = rad / Math.sin(15 * Math.PI / 180) * 0.62 / zoom;
+  if (params.get('target')) c.fromArray(params.get('target').split(',').map(Number));
+  cam.position.copy(c).addScaledVector(d, dist);
+  cam.far = dist * 6;
+  cam.updateProjectionMatrix();
+  ctl.target.copy(c);
+  ctl.update();
+}
+
+addEventListener('resize', () => {
+  r.setSize(innerWidth, innerHeight);
+  cam.aspect = innerWidth / innerHeight;
+  cam.updateProjectionMatrix();
+});
+
+window.__veh = { name, view, root, tris, size: sz.toArray(), error };
+const loop = () => { ctl.update(); r.render(scene, cam); requestAnimationFrame(loop); };
+loop();
+</script>
+</body>
+</html>

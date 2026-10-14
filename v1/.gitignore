@@ -1,0 +1,7 @@
+Niepotrzebne/
+assets/models/ph/
+node_modules/
+.DS_Store
+.env
+*.log
+__pycache__/
